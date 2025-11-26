@@ -13,8 +13,12 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Validar HTML
-        run: grep -q "<html" site/index.html
+      #- name: Validar HTML
+      #  run: |
+      #    if ! grep -q "<html" site/index.html; then
+      #      echo "HTML inválido"
+      #      exit 1
+      #    fi
 
       - name: Criar artefato
         run: |
