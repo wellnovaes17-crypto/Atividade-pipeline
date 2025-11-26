@@ -1,0 +1,24 @@
+name: Pipeline de CD
+
+on:
+  workflow_run:
+    workflows: ["Pipeline de CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar artefato gerado no CI
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build
+          path: build
+
+      - name: Publicar no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build
