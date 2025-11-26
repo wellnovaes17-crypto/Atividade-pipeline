@@ -13,12 +13,10 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Validar HTML simples
-        run: |
-          echo "Validando HTML..."
-          grep -q "<html" site/index.html
+      - name: Validar HTML
+        run: grep -q "<html" site/index.html
 
-      - name: Criar artefato do site
+      - name: Criar artefato
         run: |
           rm -rf build
           mkdir build
@@ -29,4 +27,5 @@ jobs:
         with:
           name: site-build
           path: build
+
 
