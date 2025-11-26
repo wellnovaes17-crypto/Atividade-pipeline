@@ -1,4 +1,4 @@
-name: Teste de ETL
+name: Pipeline de CI
 
 on:
   push:
@@ -6,15 +6,27 @@ on:
       - main
 
 jobs:
-  run-etl:
+  ci:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Configurar Python
-        uses: actions/setup-python@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Validar HTML simples
+        run: |
+          echo "Validando HTML..."
+          grep -q "<html" site/index.html
+
+      - name: Criar artefato do site
+        run: |
+          rm -rf build
+          mkdir build
+          cp site/index.html build/
+
+      - name: Publicar artefato
+        uses: actions/upload-artifact@v4
         with:
-          python-version: '3.10'
-      - name: Instalar dependências
-        run: pip install pandas
-      - name: Rodar script ETL
-        run: python etl_vendas.py
+          name: site-build
+          path: build
+
